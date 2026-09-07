@@ -10,6 +10,8 @@ namespace Bullgate.Billing.AspNetCore.Tests;
 public sealed partial class BillingBffTests
 {
     private const string OffersPrefix = "/bullgate/billing/v1/offers/one-time/grants/";
+    private static readonly string[] ExpectedOfferOperations =
+        ["available", "get", "open", "prepare"];
     private static readonly string[] OfferReadOperations = ["get", "open"];
     private static readonly Guid GrantId = Guid.NewGuid();
 
@@ -61,7 +63,7 @@ public sealed partial class BillingBffTests
         Assert.Equal("once-per-customer", preparation.GetProperty("purchasePolicy").GetString());
         Assert.Equal(StoreAccountToken, preparation.GetProperty("storeAccountToken").GetGuid());
         Assert.False(preparation.TryGetProperty("offerToken", out _));
-        Assert.Equal(new[] { "available", "get", "open", "prepare" }, operations);
+        Assert.Equal(ExpectedOfferOperations, operations);
     }
 
     [Fact]
