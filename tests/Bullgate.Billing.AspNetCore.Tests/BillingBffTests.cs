@@ -21,6 +21,8 @@ public sealed partial class BillingBffTests
     private const string Credential = "bgbc_private-server-credential";
     private const string Customer = "server-session-customer";
     private static readonly string[] CompletionStatuses = ["delivered", "already-delivered"];
+    private static readonly string[] ExpectedPurchaseOperations =
+        ["prepare", "eligibility", "complete", "complete"];
     private static readonly Guid StoreAccountToken = Guid.Parse("2c6a6a6e-cfe6-40e8-8a47-c2c8023db63e");
 
     [Theory]
@@ -67,7 +69,7 @@ public sealed partial class BillingBffTests
             Assert.Equal(expected, result.GetProperty("status").GetString());
             Assert.Single(result.EnumerateObject());
         }
-        Assert.Equal(new[] { "prepare", "eligibility", "complete", "complete" }, operations);
+        Assert.Equal(ExpectedPurchaseOperations, operations);
     }
 
     [Fact]
