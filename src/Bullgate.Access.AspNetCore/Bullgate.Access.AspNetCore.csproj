@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Bullgate.Access.AspNetCore</PackageId>
+    <Description>ASP.NET Core adapter for Bullgate Access.</Description>
+    <Authors>Bullgate contributors</Authors>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageTags>bullgate;access;authentication;identity;aspnetcore</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/torphi-contise/bullgate-sdk-dotnet</RepositoryUrl>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Bullgate.Access.AspNetCore.Tests" />
+  </ItemGroup>
+</Project>

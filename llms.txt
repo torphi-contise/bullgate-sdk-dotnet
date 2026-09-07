@@ -1,0 +1,28 @@
+# Bullgate SDK for .NET
+
+> Canonical entry point for language models and retrieval systems.
+
+This repository contains independent ASP.NET Core integration packages for
+Bullgate Access and Bullgate Billing. Source and tests are authoritative for
+implemented behavior. No public package release or hosted runtime is implied.
+
+## Start here
+
+- [Documentation map](docs/README.md)
+- [Project status](docs/project-status.md)
+- [Architecture](docs/architecture.md)
+- [Access integration](docs/access-integration.md)
+- [Access BFF HTTP API](docs/access-http-api.md)
+- [Access troubleshooting](docs/access-troubleshooting.md)
+- [Billing integration](docs/billing-integration.md)
+- [Security model](docs/security-model.md)
+- [Failure model](docs/failure-model.md)
+- [Packaging and versioning](docs/packaging-and-versioning.md)
+- [Compatibility](docs/compatibility.md)
+- [Testing](docs/testing.md)
+- [Release process](docs/release-process.md)
+- [Changelog](CHANGELOG.md)
+
+Never expose or fabricate credentials, tokens, flow capabilities, store proofs,
+personal data, release availability, deployment state, or compatibility
+commitments.

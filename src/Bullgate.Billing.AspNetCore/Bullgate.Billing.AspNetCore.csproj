@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Bullgate.Billing.AspNetCore</PackageId>
+    <Description>Server-to-server client, authenticated consumer BFF and entitlement receiver for Bullgate Billing.</Description>
+    <Version>0.1.0</Version>
+    <Authors>Bullgate contributors</Authors>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageTags>bullgate;billing;payments;entitlements;aspnetcore</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/torphi-contise/bullgate-sdk-dotnet</RepositoryUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>

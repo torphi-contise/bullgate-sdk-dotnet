@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Bullgate.Access.AspNetCore/Bullgate.Access.AspNetCore.csproj" />
+    <Project Path="src/Bullgate.Billing.AspNetCore/Bullgate.Billing.AspNetCore.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Bullgate.Access.AspNetCore.Tests/Bullgate.Access.AspNetCore.Tests.csproj" />
+    <Project Path="tests/Bullgate.Billing.AspNetCore.Tests/Bullgate.Billing.AspNetCore.Tests.csproj" />
+  </Folder>
+</Solution>
