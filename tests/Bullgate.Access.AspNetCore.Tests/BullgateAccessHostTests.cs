@@ -13,6 +13,10 @@ namespace Bullgate.Access.AspNetCore.Tests;
 
 public sealed class BullgateAccessHostTests
 {
+    private static readonly int[] ProtocolVersion1 = [1];
+    private static readonly JsonSerializerOptions WebJsonOptions =
+        new(JsonSerializerDefaults.Web);
+
     [Fact]
     public async Task Register_ResumesAnExistingIdentityAndIssuesOnlyTheHostCookie()
     {
@@ -161,7 +165,7 @@ public sealed class BullgateAccessHostTests
         Assert.DoesNotContain("bgs_issued", responseJson, StringComparison.Ordinal);
         var error = JsonSerializer.Deserialize<TestError>(
             responseJson,
-            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            WebJsonOptions);
         Assert.Equal("missing-fields", error?.Error);
         Assert.Equal("application", error?.Field);
     }
@@ -192,7 +196,7 @@ public sealed class BullgateAccessHostTests
         Assert.DoesNotContain("bgs_issued", responseJson, StringComparison.Ordinal);
         var error = JsonSerializer.Deserialize<TestError>(
             responseJson,
-            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            WebJsonOptions);
         Assert.Equal("application-rejected", error?.Error);
     }
 
@@ -388,7 +392,7 @@ public sealed class BullgateAccessHostTests
             new
             {
                 requestId = Guid.CreateVersion7(),
-                protocolVersions = new[] { 1 },
+                protocolVersions = ProtocolVersion1,
                 intent = "continueRegistration",
                 applicationClientKey = "android-internal",
             });
@@ -730,7 +734,7 @@ public sealed class BullgateAccessHostTests
         Assert.DoesNotContain("apple-identity-token", responseJson, StringComparison.Ordinal);
         var body = JsonSerializer.Deserialize<TestEnvelope>(
             responseJson,
-            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            WebJsonOptions);
         Assert.Equal("Apple Person", body?.Application?.Name);
     }
 
@@ -767,7 +771,7 @@ public sealed class BullgateAccessHostTests
         Assert.DoesNotContain("apple-token", responseJson, StringComparison.Ordinal);
         var error = JsonSerializer.Deserialize<TestError>(
             responseJson,
-            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            WebJsonOptions);
         Assert.Equal("provider-token-invalid", error?.Error);
         Assert.Equal("credential", error?.Field);
     }
@@ -850,7 +854,7 @@ public sealed class BullgateAccessHostTests
             new
             {
                 requestId = Guid.CreateVersion7(),
-                protocolVersions = new[] { 1 },
+                protocolVersions = ProtocolVersion1,
                 intent = "continueRegistration",
                 applicationClientKey = "\t",
             });
@@ -1058,7 +1062,7 @@ public sealed class BullgateAccessHostTests
         Assert.DoesNotContain("new-secret", responseJson, StringComparison.Ordinal);
         var error = JsonSerializer.Deserialize<TestError>(
             responseJson,
-            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            WebJsonOptions);
         Assert.Equal("password-invalid", error?.Error);
         Assert.Equal("currentPassword", error?.Field);
     }
@@ -1614,7 +1618,7 @@ public sealed class BullgateAccessHostTests
                 hasApple,
                 hasApple ? "apple@example.test" : null);
 
-        private BullgateAccessFlow ActiveFlow(Guid? flowId = null)
+        private static BullgateAccessFlow ActiveFlow(Guid? flowId = null)
         {
             var id = flowId ?? Guid.CreateVersion7();
             return new BullgateAccessFlow(

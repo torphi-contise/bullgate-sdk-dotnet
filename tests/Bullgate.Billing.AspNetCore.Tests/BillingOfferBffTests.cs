@@ -10,6 +10,7 @@ namespace Bullgate.Billing.AspNetCore.Tests;
 public sealed partial class BillingBffTests
 {
     private const string OffersPrefix = "/bullgate/billing/v1/offers/one-time/grants/";
+    private static readonly string[] OfferReadOperations = ["get", "open"];
     private static readonly Guid GrantId = Guid.NewGuid();
 
     [Fact]
@@ -45,7 +46,7 @@ public sealed partial class BillingBffTests
         Assert.Single(offers.EnumerateArray());
         Assert.Equal("popup", offers[0].GetProperty("placements")[0].GetString());
         Assert.False(offers[0].TryGetProperty("showsPopup", out _));
-        foreach (var operation in new[] { "get", "open" })
+        foreach (var operation in OfferReadOperations)
         {
             using var response = await client.PostAsJsonAsync(OffersPrefix + operation, new { grantId = GrantId });
             Assert.Equal(operation == "open" ? "opened" : "sent", (await Body(response, HttpStatusCode.OK)).GetProperty("status").GetString());

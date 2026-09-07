@@ -69,7 +69,6 @@ jobs:
           & "${{ runner.temp }}/scanner/dotnet-sonarscanner" begin `
             /k:"torphi-contise_bullgate-sdk-dotnet" `
             /o:"torphi-contise" `
-            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
             /d:sonar.cs.opencover.reportsPaths="TestResults/**/coverage.opencover.xml" `
             /d:sonar.cs.vstest.reportsPaths="TestResults/**/*.trx"
 
@@ -91,9 +90,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: pwsh
-        run: |
-          & "${{ runner.temp }}/scanner/dotnet-sonarscanner" end `
-            /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+        run: '& "${{ runner.temp }}/scanner/dotnet-sonarscanner" end'
 
       - name: Pack
         run: dotnet pack Bullgate.Sdk.DotNet.slnx --configuration Release --no-build --output artifacts/packages

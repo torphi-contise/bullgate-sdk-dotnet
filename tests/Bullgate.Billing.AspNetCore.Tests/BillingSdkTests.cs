@@ -12,6 +12,9 @@ namespace Bullgate.Billing.AspNetCore.Tests;
 
 public sealed class BillingSdkTests
 {
+    private static readonly string[] EligibilityRequestProperties =
+        ["customerReference", "productId", "provider"];
+
     [Theory]
     [InlineData(503, "billing-store-finalization-pending", true, true)]
     [InlineData(503, "billing-store-finalization-pending", false, false)]
@@ -42,11 +45,11 @@ public sealed class BillingSdkTests
     public async Task Preparation_SendsOnlyCustomerAndProduct_AndReturnsBindingOnlyWhenEligible(string policy, bool eligible)
     {
         var token = Guid.NewGuid();
-        var handler = new Handler(async (request, _) =>
+        var handler = new Handler(async (request, cancellationToken) =>
         {
             Assert.Equal("https://billing.test/base/v1/purchases/one-time/prepare", request.RequestUri!.AbsoluteUri);
             Assert.Equal("Bearer", request.Headers.Authorization!.Scheme);
-            var body = await request.Content!.ReadFromJsonAsync<JsonElement>();
+            var body = await request.Content!.ReadFromJsonAsync<JsonElement>(cancellationToken);
             Assert.Equal(3, body.EnumerateObject().Count());
             Assert.Equal("customer", body.GetProperty("customerReference").GetString());
             Assert.Equal("app-store", body.GetProperty("provider").GetString());
@@ -89,11 +92,11 @@ public sealed class BillingSdkTests
     [InlineData("already-delivered", BullgatePurchaseCompletion.AlreadyDelivered)]
     public async Task Client_SendsOnlyCompletionContractAndParsesKnownSuccess(string status, BullgatePurchaseCompletion expected)
     {
-        var handler = new Handler(async (request, _) =>
+        var handler = new Handler(async (request, cancellationToken) =>
         {
             Assert.Equal("https://billing.test/base/v1/purchases/one-time/complete", request.RequestUri!.AbsoluteUri);
             Assert.Equal("Bearer", request.Headers.Authorization!.Scheme);
-            var json = await request.Content!.ReadAsStringAsync();
+            var json = await request.Content!.ReadAsStringAsync(cancellationToken);
             Assert.Contains("customerReference", json);
             Assert.DoesNotContain("environment", json);
             return Json(200, $"{{\"status\":\"{status}\"}}");
@@ -164,14 +167,14 @@ public sealed class BillingSdkTests
     public async Task Eligibility_SendsOnlyReadContractAndReturnsTypedPolicy(string policy, bool eligible, BullgateOneTimePurchasePolicy expected)
     {
         var reason = eligible ? null : "billing-purchase-policy-limit-reached";
-        var handler = new Handler(async (request, _) =>
+        var handler = new Handler(async (request, cancellationToken) =>
         {
             Assert.Equal(HttpMethod.Post, request.Method);
             Assert.Equal("https://billing.test/base/v1/purchases/one-time/eligibility", request.RequestUri!.AbsoluteUri);
             Assert.Equal("Bearer", request.Headers.Authorization!.Scheme);
             Assert.Equal("bgbc_test", request.Headers.Authorization.Parameter);
-            var body = await request.Content!.ReadFromJsonAsync<JsonElement>();
-            Assert.Equal(new[] { "customerReference", "productId", "provider" },
+            var body = await request.Content!.ReadFromJsonAsync<JsonElement>(cancellationToken);
+            Assert.Equal(EligibilityRequestProperties,
                 body.EnumerateObject().Select(property => property.Name).Order());
             Assert.Equal("customer", body.GetProperty("customerReference").GetString());
             Assert.Equal("fake-store", body.GetProperty("provider").GetString());

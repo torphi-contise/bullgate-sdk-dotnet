@@ -20,6 +20,7 @@ public sealed partial class BillingBffTests
     private const string Prefix = "/bullgate/billing/v1/purchases/one-time/";
     private const string Credential = "bgbc_private-server-credential";
     private const string Customer = "server-session-customer";
+    private static readonly string[] CompletionStatuses = ["delivered", "already-delivered"];
     private static readonly Guid StoreAccountToken = Guid.Parse("2c6a6a6e-cfe6-40e8-8a47-c2c8023db63e");
 
     [Theory]
@@ -59,7 +60,7 @@ public sealed partial class BillingBffTests
 
         using var eligible = await client.PostAsJsonAsync(Prefix + "eligibility", new { provider, productId = "pack.10" });
         Assert.False((await Body(eligible, HttpStatusCode.OK)).TryGetProperty("storeAccountToken", out _));
-        foreach (var expected in new[] { "delivered", "already-delivered" })
+        foreach (var expected in CompletionStatuses)
         {
             using var complete = await client.PostAsJsonAsync(Prefix + "complete", new { provider, productId = "pack.10", proof = "private-proof" });
             var result = await Body(complete, HttpStatusCode.OK);

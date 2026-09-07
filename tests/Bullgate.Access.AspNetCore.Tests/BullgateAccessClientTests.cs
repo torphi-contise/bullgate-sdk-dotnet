@@ -9,6 +9,9 @@ namespace Bullgate.Access.AspNetCore.Tests;
 
 public sealed class BullgateAccessClientTests
 {
+    private static readonly JsonSerializerOptions WebJsonOptions =
+        new(JsonSerializerDefaults.Web);
+
     [Fact]
     public async Task Register_SendsTheIntegrationCredentialAndParsesTheSession()
     {
@@ -699,7 +702,7 @@ public sealed class BullgateAccessClientTests
                 },
                 issuedSession,
             },
-            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            WebJsonOptions);
         var handler = new DelegateHandler(_ =>
             new HttpResponseMessage(HttpStatusCode.OK)
             {
