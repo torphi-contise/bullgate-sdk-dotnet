@@ -63,7 +63,7 @@ public sealed class BullgateSessionCookieTests
         Assert.DoesNotContain("domain=", header, StringComparison.OrdinalIgnoreCase);
     }
 
-    private static IBullgateSessionCookie CreateCookie() =>
+    private static BullgateSessionCookie CreateCookie() =>
         new BullgateSessionCookie(
             Options.Create(new BullgateAccessOptions
             {
