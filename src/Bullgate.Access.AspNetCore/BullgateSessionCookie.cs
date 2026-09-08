@@ -4,6 +4,12 @@ using Microsoft.Extensions.Options;
 namespace Bullgate.Access.AspNetCore;
 
 /// <summary>Reads and mutates the adapter-owned host-only session cookie.</summary>
+/// <remarks>
+/// Implementations must keep the opaque bearer unavailable to application
+/// JavaScript, preserve the intended host and path boundary, apply the
+/// configured transport and SameSite policy, and mark mutation responses as
+/// non-cacheable. Never log or return the cookie value.
+/// </remarks>
 public interface IBullgateSessionCookie
 {
     /// <summary>Reads the opaque session token from the current request.</summary>

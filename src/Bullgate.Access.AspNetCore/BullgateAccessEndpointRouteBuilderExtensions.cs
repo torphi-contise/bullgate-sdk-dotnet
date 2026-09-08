@@ -11,6 +11,15 @@ public static class BullgateAccessEndpointRouteBuilderExtensions
     /// Maps Access routes and connects identity sessions to the consumer-owned
     /// registration and product-profile adapter.
     /// </summary>
+    /// <remarks>
+    /// Register the Access client, Bullgate session authentication,
+    /// <see cref="IBullgatePrincipalResolver"/>, and
+    /// <see cref="IBullgateAccessApplication{TRegistration,TApplication}"/>
+    /// before mapping these routes. Use the same generic types during service
+    /// registration and endpoint mapping. The consumer remains responsible for
+    /// HTTPS, proxy configuration, CORS, CSRF protection, and product
+    /// authorization.
+    /// </remarks>
     /// <typeparam name="TRegistration">The consumer-defined registration request payload.</typeparam>
     /// <typeparam name="TApplication">The consumer-defined public product-profile payload.</typeparam>
     /// <param name="endpoints">The consumer application's endpoint route builder.</param>
