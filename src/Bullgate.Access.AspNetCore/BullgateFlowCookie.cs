@@ -4,6 +4,12 @@ using Microsoft.Extensions.Options;
 namespace Bullgate.Access.AspNetCore;
 
 /// <summary>Reads and mutates the adapter-owned AccessFlow capability cookie.</summary>
+/// <remarks>
+/// Implementations must keep the capability unavailable to application
+/// JavaScript, scope it to the Access BFF route prefix, preserve the intended
+/// host boundary, apply the configured transport and SameSite policy, and mark
+/// mutation responses as non-cacheable. Never log or return the capability.
+/// </remarks>
 public interface IBullgateFlowCookie
 {
     /// <summary>Reads the temporary bearer capability from the current request.</summary>

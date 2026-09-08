@@ -22,6 +22,9 @@ do not assume that a public NuGet feed already exists.
 ## Start here
 
 - [Documentation map](docs/README.md)
+- [AI and retrieval entry point](llms.txt)
+- [Access AI grounding context](docs/ai/context.md)
+- [Access getting started](docs/access-getting-started.md)
 - [Access integration](docs/access-integration.md)
 - [Access BFF HTTP API](docs/access-http-api.md)
 - [Access troubleshooting](docs/access-troubleshooting.md)

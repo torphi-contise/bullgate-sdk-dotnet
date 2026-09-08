@@ -93,4 +93,10 @@ internal sealed class BullgateSessionAuthenticationHandler(
 }
 
 /// <summary>Endpoint metadata that prevents the Bullgate session handler from authenticating a route.</summary>
+/// <remarks>
+/// This marker suppresses only the Bullgate session authentication handler. It
+/// does not grant anonymous access, satisfy authorization requirements, or
+/// suppress another authentication scheme. Apply it only when the endpoint
+/// handles the relevant Access bearer or cookie boundary explicitly.
+/// </remarks>
 public sealed class SkipBullgateSessionAuthentication;
